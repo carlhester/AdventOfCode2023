@@ -8,7 +8,7 @@ def main():
     pattern1 = re.compile(r'[0-9]')
     pattern2 = re.compile(r'(?=([0-9]|one|two|three|four|five|six|seven|eight|nine))')
 
-    with open('../data.txt', 'r') as f:
+    with open('data.txt', 'r') as f:
         lines = f.readlines()
         for line in lines: 
             
