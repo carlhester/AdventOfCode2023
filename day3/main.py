@@ -27,7 +27,8 @@ class PartNumber:
 
 
 class Symbol:
-    def __init__(self, position):
+    def __init__(self, value, position):
+        self.value = value
         self.position = (position)
         self.adjs = []
 
@@ -75,7 +76,7 @@ def main():
                     cur_numb = ""
                     cur_pos = []
 
-                s = Symbol((c, r))
+                s = Symbol(grid[r][c], (c, r))
                 adjs = get_adjs(s.position)
                 for adj in adjs:
                     x = adj[0]
@@ -90,13 +91,28 @@ def main():
                 if pos in symbol.adjs:
                     pn.hasAdjacentSymbol = True
 
-    sum = 0
+    sum2 = 0
+    for sym in symbols:
+        seen_values = []
+        matches = []
+        if sym.value != "*":
+            continue
+        for pn in part_numbers:
+            for sym_adjs in sym.adjs:
+                if sym_adjs in pn.positions:
+                    if pn.value not in seen_values:
+                        seen_values.append(pn.value)
+                        matches.append(pn)
+        if len(matches) == 2:
+            sum2 += int(matches[0].value) * int(matches[1].value)
+
+    sum1 = 0
     for pn in part_numbers:
         if pn.hasAdjacentSymbol:
-            print("part number:", pn.value, "has adjacent symbol")
-            sum += int(pn.value)
+            sum1 += int(pn.value)
 
-    print(sum)
+    print("part1:", sum1)
+    print("part2:", sum2)
 
 
 def is_symbol(s):
